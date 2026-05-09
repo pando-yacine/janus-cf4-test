@@ -1,0 +1,89 @@
+{
+  "protocol_version": "v2.0_extension_sprint3",
+  "test_type": "residuals after 2M++ LCDM subtraction",
+  "lcdm_model": "TwoMPP_SDSS (Carrick et al. 2015 / Said et al. 2020)",
+  "dr_position": {
+    "l": 305.0,
+    "b": 5.0
+  },
+  "n_dr_total": 33,
+  "n_anti_total": 105,
+  "bins_dr_residual": [
+    {
+      "lo": 0,
+      "hi": 8,
+      "n": 0,
+      "mean": null,
+      "err": null
+    },
+    {
+      "lo": 8,
+      "hi": 18,
+      "n": 0,
+      "mean": null,
+      "err": null
+    },
+    {
+      "lo": 18,
+      "hi": 28,
+      "n": 6,
+      "mean": 444.32060872252094,
+      "err": 115.58435729822138
+    },
+    {
+      "lo": 28,
+      "hi": 40,
+      "n": 27,
+      "mean": 797.8792202498096,
+      "err": 131.0800435562859
+    }
+  ],
+  "bins_anti_residual": [
+    {
+      "lo": 0,
+      "hi": 8,
+      "n": 0,
+      "mean": null,
+      "err": null
+    },
+    {
+      "lo": 8,
+      "hi": 18,
+      "n": 2,
+      "mean": 223.99549627399074,
+      "err": 467.99705777923145
+    },
+    {
+      "lo": 18,
+      "hi": 28,
+      "n": 46,
+      "mean": 380.5791681209657,
+      "err": 115.81888137044162
+    },
+    {
+      "lo": 28,
+      "hi": 40,
+      "n": 57,
+      "mean": 490.54796291504385,
+      "err": 99.1560023755392
+    }
+  ],
+  "ctrl_means": [
+    814.7900590897743,
+    527.8134642626546,
+    566.4377839064572,
+    582.4338531103238
+  ],
+  "ctrl_errs": [
+    162.33902882824773,
+    26.333001653851728,
+    63.94028659311935,
+    50.108138108542555
+  ],
+  "chi2_dr_residual": 3.2117224223655128,
+  "chi2_anti_residual": 3.0778042890797503,
+  "df_used": 2,
+  "pvalue_dr": 0.2007166210560175,
+  "pvalue_anti": 0.37978415552190825,
+  "verdict": "non_discriminant_apres_LCDM"
+}
