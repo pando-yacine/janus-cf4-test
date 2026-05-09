@@ -1,8 +1,9 @@
 ---
 title: Protocole d'analyse pré-enregistré
-date_freeze: TBD (à figer par commit Git AVANT téléchargement des données)
-git_commit_hash: TBD
-status: DRAFT — à valider et à freeze
+date_freeze: 2026-05-09 19:52:08 +0200
+git_commit_hash: ac45458a6d086e167830cee05b32abd7fde97d28
+git_tag: v1.0-protocol-frozen
+status: FROZEN (commit confirmé avant tout téléchargement de données)
 ---
 
 # Protocole pré-enregistré — Test annulaire derrière Dipole Repeller

@@ -1,8 +1,9 @@
 ---
 title: Protocole pré-enregistré v3 — test photométrique 2MRS K-band
-date_freeze: TBD (à figer avant inspection des magnitudes autour du DR)
-git_commit_hash: TBD
-status: DRAFT — à freeze
+date_freeze: 2026-05-09 22:08:54 +0200
+git_commit_hash: bcdc0e176b0fdc0c8b79220c9d55ade595b79be7
+git_tag: v3.0-protocol-frozen
+status: FROZEN avant inspection des magnitudes autour du DR
 predecessors:
   - 01-protocole-pre-enregistre.md (v1, abandonné — Pantheon+ insuffisant)
   - 01b-protocole-v2-CF4.md (v2, exécuté — non-discriminant après LCDM)

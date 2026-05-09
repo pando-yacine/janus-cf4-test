@@ -1,8 +1,9 @@
 ---
 title: Protocole pré-enregistré v2 — pivot CosmicFlows-4
-date_freeze: TBD (à figer par commit Git AVANT de regarder les valeurs CF4 autour du DR)
-git_commit_hash: TBD
-status: DRAFT — validation puis freeze
+date_freeze: 2026-05-09 20:48:38 +0200
+git_commit_hash: b06dfd379b0c14c2e99b0544aaeb537a9c6a15d1
+git_tag: v2.0-protocol-frozen
+status: FROZEN (commit confirmé avant inspection des Vpec autour du DR)
 predecessor: 01-protocole-pre-enregistre.md (commit ac45458, abandonné car Pantheon+ insuffisant en zone d'évitement)
 ---
 

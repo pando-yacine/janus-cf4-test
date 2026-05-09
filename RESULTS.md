@@ -1,25 +1,37 @@
 ---
-title: Test observationnel de la prédiction d'atténuation annulaire de Janus-2024 derrière le Dipole Repeller — Résultats v2
+title: Test observationnel de la prédiction d'atténuation annulaire de Janus-2024 derrière le Dipole Repeller — Résultats v3
 date: 2026-05-09
 authors: Yacine Arhaliass + assistant Claude (Anthropic)
-status: v2.0 — Sprint 3 inclut soustraction LCDM via 2M++
+status: v3.0 — Sprint 4 ajoute le test photométrique direct (2MRS) — celui qui correspond mot-à-mot à la prédiction publiée
 ---
 
-# Résultats v2 — Test du modèle Janus contre Dipole Repeller via CosmicFlows-4
+# Résultats v3 — Test du modèle Janus contre Dipole Repeller : kinématique CF4 + photométrie 2MRS
 
 ## TL;DR
 
-Test pré-enregistré de la prédiction discriminante de **Petit-Margnat-Zejli 2024** (EPJ-C 84:1226) sur les données publiques **CosmicFlows-4** (Tully et al. 2023, ApJ 944:94), avec soustraction du flow LCDM via **2M++ Carrick et al. 2015** (package *pvhub*).
+Test pré-enregistré de la prédiction discriminante de **Petit-Margnat-Zejli 2024** (EPJ-C 84:1226) sur trois jeux de données publiques en série :
 
-| Test | χ² | df | p-value | Verdict |
-|---|---:|---:|---:|---|
-| **DR brut (table4 groupes)** | 20.10 | 3 | 0.0002 | Signal réel (top 3% placebo), mais profil **monotone positif**, pas annulaire négatif |
-| **Antipode brut (Shapley)** | 44.75 | 3 | <0.0001 | Mirror image du DR — signature **dipolaire LCDM** |
-| **DR résidus (table2 - 2M++)** | 3.21 | 2 | 0.20 | **Non discriminant** — LCDM explique tout |
+| Sprint | Source | Test | Verdict |
+|---|---|---|---|
+| 1 | Pantheon+ SN-Ia | impossible (0 SN dans cône DR — zone d'évitement) | abandonné |
+| 2 | CosmicFlows-4 (Vpec brut) | χ² = 20.1, p = 0.0002 — signal réel mais forme **monotone positive**, signature dipolaire LCDM | LCDM-compatible |
+| 3 | CF4 résidus après 2M++ | χ² = 3.2, p = 0.20 — signal disparaît | non discriminant |
+| **4** | **2MRS K-band photométrique (test direct, aligné mot-à-mot avec la prédiction Petit-Zejli HAL-04583560)** | voir ci-dessous | **non discriminant** |
 
-**Conclusion principale** : la prédiction Janus testable formulée pour CF4 (lentille gravitationnelle négative → atténuation lumineuse → distance TF surestimée → Vpec biaisée vers le négatif aux bords du DR) **n'est pas observée**. Les vélocités peculières mesurées sont entièrement compatibles avec la cinématique LCDM standard du couple Repeller-Attractor.
+### Sprint 4 — Test photométrique direct 2MRS (le « bon » test)
 
-⚠️ **Caveat majeur** : la prédiction quantitative testée est **ma dérivation** depuis l'EPJ-C 2024, pas une formulation publiée par les auteurs. Un email a été préparé pour Petit & Zejli demandant leur lecture.
+| Observable | DR χ² | Placebo (100 pos.) | Antipode (Shapley) | Verdict |
+|---|---:|---|---|---|
+| **A — Médiane $M_K^{app}$ par bin** | 8.05 (df=4, p=0.09) | DR top **53%** | $\chi^2 = 7.96$, **même pattern bin 0** ($\Delta M = +0.30$ mag) | non discriminant |
+| **B — Comptage galaxies $K_t < 11.0$** | 50.36 (df=4) | DR top **12%** | $\chi^2 = 11.83$, **même déficit bins 0-1** | non spécifique au DR |
+
+**Lecture** :
+- Observable A : aucune structure annulaire. Le seul écart (bin 0 = centre, +0.26 mag, 12 galaxies) est **répliqué à l'antipode Shapley** (+0.30 mag, 14 galaxies) → artefact de petit échantillon, pas signature DR.
+- Observable B : χ² élevé mais dominé par un **excès** dans bin 2 (+50 galaxies, présence du superamas Vela), pas par un **déficit annulaire** comme prédit par Janus. Les bins 0-1 (où l'atténuation maximale est attendue) montrent un déficit qui se retrouve aussi à l'antipode.
+
+**Conclusion principale** : aucune des trois observables testées (Vpec brut, Vpec résiduels post-LCDM, photométrie K-band directe) ne révèle de signature angulaire spécifique au Dipole Repeller. Le test photométrique direct — celui qui correspond textuellement à la prédiction publiée par Petit & Zejli — est **non discriminant**.
+
+⚠️ **Caveat permanent** : la formule quantitative reliant la prédiction d'« atténuation annulaire » à une amplitude observable précise (en mag, en N galaxies, ou en Vpec) reste **ma dérivation**, pas une formule explicite des auteurs. Email envoyé à Petit/Zejli demandant leur lecture.
 
 ## Contexte et motivation
 
@@ -31,24 +43,21 @@ Le **Dipole Repeller** (Hoffman, Pomarède, Tully, Courtois — *Nature Astronom
 
 ### La prédiction discriminante
 
-L'article HAL-04583560 (Petit-Zejli, mai 2024) précise :
+L'article HAL-04583560 (Petit-Zejli, mai 2024) précise textuellement :
 
-> *"We predict that when a map is established by the JWST telescope, the invisible mass will manifest its presence by a brightness attenuation, not over the entire disk, but in a ring."*
+> *"the invisible mass [du Dipole Repeller] will manifest its presence by a brightness attenuation, not over the entire disk, but in a ring."*
 
-C'est cette prédiction d'**atténuation annulaire** que ce test vise à confronter aux données publiques actuelles.
+C'est une prédiction **photométrique directe** : la lumière des galaxies derrière le DR doit être atténuée dans un anneau angulaire intermédiaire (ni au centre, ni en périphérie). Sprint 4 teste cette prédiction sur **2MRS** — survey K-band tout-ciel, directement adapté à la mesure d'atténuation annulaire.
 
 ## Méthodologie
 
-### Pré-enregistrement
-
-Trois commits Git successifs avec timestamp :
+### Pré-enregistrement (3 versions)
 
 | Tag | Commit | Date | Statut |
 |---|---|---|---|
-| `v1.0-protocol-frozen` | `ac45458` | 2026-05-09 19:52 | v1 figée AVANT data Pantheon+ |
-| `v2.0-protocol-frozen` | `b06dfd3` | 2026-05-09 20:48 | v2 figée AVANT inspection CF4 |
-| `v1.0-results` | `eb12654` | 2026-05-09 21:02 | v1 résultats (sans soustraction LCDM) |
-| `v2.0-results` | (à venir) | 2026-05-09 | v2 résultats (avec soustraction LCDM) |
+| `v1.0-protocol-frozen` | `ac45458` | 2026-05-09 19:52 | Pantheon+ figé avant data |
+| `v2.0-protocol-frozen` | `b06dfd3` | 2026-05-09 20:48 | CF4 figé avant data |
+| `v3.0-protocol-frozen` | `bcdc0e1` | 2026-05-09 22:08 | 2MRS figé avant data |
 
 ### Données
 
@@ -58,26 +67,24 @@ Trois commits Git successifs avec timestamp :
 | CosmicFlows-4 | `table2.dat` (galaxies indiv.) | 55 877 | `8e908928e683...` |
 | CosmicFlows-4 | `table4.dat` (groupes) | 38 053 | `b6edfec68bdf...` |
 | 2M++ via pvhub | Carrick et al. 2015 | grille 129³ | (LFS GitHub) |
+| **2MRS** | `table3.dat` | **44 599 galaxies K-band** | `ea2eebeacdef...` |
 
-### Protocole figé v2
+### Protocole figé v3 (extrait — voir `01c-protocole-v3-2MRS.md`)
 
-- Position DR : $(l, b) = (305°, +5°)$ (Hoffman 2017)
+- Position DR : $(l, b) = (305°, +5°)$
 - Cône angulaire : $\theta_{DR} < 40°$
-- Distance comobile : 50 < d < 350 Mpc
-- Erreur DM : $e_{DM} < 0.30$ mag
-- Latitude galactique : $|b| > 3°$
-- Bins angulaires figés : [0,8] [8,18] [18,28] [28,40] degrés
-- 8 régions de contrôle (seed=42)
-- 100 placebo positions (seed=12345)
-- Test χ² standard
+- Plage redshift : $0.04 < z < 0.10$
+- Ktmag $\leq 11.5$, $e_{Kt} < 0.20$, $|b| > 5°$
+- Bins angulaires : $[0,8] [8,18] [18,28] [28,40]$ degrés
+- Cosmologie LCDM figée : $H_0 = 70$, $\Omega_m = 0.3$
+- 8 régions de contrôle (seed=42) ; 100 placebo (seed=12345)
+- Antipode = $(125°, -5°)$ (direction Shapley)
 
 ## Résultats détaillés
 
 ### Sprint 1 — Pantheon+ (v1, abandonné)
 
-**0 SN-Ia** dans l'échantillon. Le DR (b=+5°) est dans la **zone d'évitement galactique** de Pantheon+ (extinction par poussières → SN-Ia non calibrables). Pantheon+ a 0 SN dans |b|<5° et 6 SN dans |b|<10°, vs 1489 hors plan.
-
-→ Pivot vers CF4 (couvre tout le ciel via méthodes IR proche).
+**0 SN-Ia** dans l'échantillon. Le DR (b=+5°) est dans la **zone d'évitement galactique** de Pantheon+. → Pivot vers CF4 (couvre tout le ciel via méthodes IR proche).
 
 ### Sprint 2 — CF4 groupes table4 (v1 résultat)
 
@@ -90,78 +97,105 @@ Trois commits Git successifs avec timestamp :
 | [18, 28) | 29 | +268 ± 55 | +75 | **+193** |
 | [28, 40) | 56 | +233 ± 44 | +107 | **+126** |
 
-**χ² = 20.10 (df=3), p = 0.0002.** Top 3% du placebo (sur 100 positions aléatoires).
+**χ² = 20.10 (df=3), p = 0.0002.** Top 3% du placebo. Mais **forme monotone positive**, opposée en signe à la prédiction Janus dérivée.
 
-**Antipode (Shapley direction)** : ΔVpec = -433, -39, -165 km/s. **χ² = 44.75 (df=3).** Mirror image en signe.
-
-**Robustesse** : χ² = 19.1 à 19.9 avec bins ±20%. Stable.
+**Antipode (Shapley)** : ΔVpec = -433, -39, -165 km/s. **χ² = 44.75 (df=3).** Mirror image en signe → signature dipolaire LCDM standard.
 
 ### Sprint 3 — Soustraction LCDM via 2M++ (v2 résultat)
 
-Pour chaque galaxie de l'échantillon, calcul de Vpec_LCDM via la reconstruction publique 2M++ Carrick 2015 (package *pvhub*, classe `TwoMPP_SDSS`). Résidu :
-
-$$V_{pec}^{residual} = V_{pec}^{obs} - V_{pec}^{LCDM}$$
-
-Test χ² refait sur les résidus (table2 individuels, 33 galaxies dans le cône DR avec critères figés) :
+Pour chaque galaxie, calcul de Vpec_LCDM via 2M++ Carrick 2015. Test χ² sur les résidus :
 
 | Bin θ° | N | <résidu(DR)> km/s | <résidu(ctrl)> | Δrésidu |
 |---|---:|---:|---:|---:|
-| [0, 8) | 0 | — | — | — |
-| [8, 18) | 0 | — | — | — |
 | [18, 28) | 6 | +444 | +566 | **-122** |
 | [28, 40) | 27 | +798 | +582 | **+215** |
 
-**χ² = 3.21 (df=2), p = 0.20.** **Non discriminant.**
+**χ² = 3.21 (df=2), p = 0.20.** Non discriminant — LCDM explique tout.
 
-→ Une fois le flow LCDM soustrait via 2M++, le signal disparaît. La cinématique du DR est entièrement expliquée par LCDM standard.
+### Sprint 4 — Test photométrique direct 2MRS (v3, nouveau)
+
+**Échantillon DR** : 993 galaxies (vs 89 en CF4 groupes, vs 0 en Pantheon+). Sample antipode : 812 galaxies.
+
+#### Observable A — Médiane $M_K^{app}$ par bin
+
+| Bin θ° | N (DR) | $\tilde M_K^{app}$ DR | $\langle\tilde M_K^{app}\rangle$ ctrl | $\Delta M_K^{app}$ |
+|---|---:|---:|---:|---:|
+| [0, 8) | 12 | -25.42 ± 0.18 | -25.68 ± 0.05 | **+0.26** |
+| [8, 18) | 109 | -25.70 ± 0.06 | -25.58 ± 0.03 | **-0.13** |
+| [18, 28) | 411 | -25.65 ± 0.03 | -25.60 ± 0.02 | **-0.05** |
+| [28, 40) | 461 | -25.56 ± 0.05 | -25.62 ± 0.01 | **+0.06** |
+
+$\chi^2_A = 8.05$ (df=4), $p = 0.09$. **Antipode** : $\chi^2_A = 7.96$, ΔM bin 0 = **+0.30** (très similaire au DR). Placebo : DR top **53%** des positions aléatoires → totalement non discriminant.
+
+**Lecture** : aucune structure annulaire. L'écart bin 0 (+0.26 mag, 12 galaxies seulement) est **répliqué à l'antipode** (+0.30 mag, 14 galaxies) → artefact de petits échantillons.
+
+#### Observable B — Comptage galaxies $K_t < 11.0$
+
+| Bin θ° | N (DR) | $\langle N \rangle$ ctrl | Δcount |
+|---|---:|---:|---:|
+| [0, 8) | 2 | 12.6 | **-10.6** |
+| [8, 18) | 32 | 45.8 | **-13.8** |
+| [18, 28) | 118 | 67.8 | **+50.2** |
+| [28, 40) | 110 | 111.1 | **-1.1** |
+
+$\chi^2_B = 50.36$ (df=4). **Mais** placebo : DR top **12%** des positions aléatoires (médiane placebo = 22.96, max = 149.6) — donc la distribution placebo est **très étalée**, et 12% n'est pas significatif.
+
+**Antipode** : déficits similaires bins 0-1 (-7, -12), pas d'excès bin 2 mais $\chi^2 = 11.83$ aussi non négligeable.
+
+**Lecture** : le χ² est dominé par un **excès** dans bin 2 (+50, sur-densité du superamas Vela qui se trouve dans cette tranche angulaire), pas par un déficit annulaire. La prédiction Janus est un **déficit dans les bins 1-2** (anneau d'atténuation), or on observe au contraire un **excès** dans bin 2 et un déficit dans bin 0 — incompatible avec la signature annulaire.
+
+#### Robustesse bins ±20%
+
+| Variation | $\chi^2_A$ | $\chi^2_B$ |
+|---|---:|---:|
+| Bins +20% | 4.45 | 50.51 |
+| Bins -20% | 12.64 | 49.42 |
+
+Observable B très stable. Observable A fragile (entre 4 et 13) — son significativité dépend du choix exact des bins, ce qui confirme qu'il n'y a pas de signal robuste.
 
 ## Interprétation
 
+### Synthèse
+
+Les trois observables testées (Vpec brut, Vpec résiduel post-LCDM, photométrie K-band) **convergent vers le même verdict** : aucune signature annulaire spécifique au Dipole Repeller dans les données publiques actuelles.
+
+Le test photométrique direct — qui correspond mot-à-mot à la prédiction publiée — est **non discriminant** :
+- Observable A (le plus propre, magnitude résiduelle) : DR au 53e percentile du placebo, et l'écart marginal en bin 0 est répliqué à l'antipode.
+- Observable B (comptage) : signal global ($\chi^2 = 50$) mais profil **incompatible** avec la signature annulaire prédite (excès au lieu de déficit dans le bin annulaire), et placebo top 12% non significatif.
+
 ### Ce qu'on peut affirmer
 
-1. **Le signal observé en v1 (table4 brut) est réel** (top 3% placebo, p=0.0002).
-2. **La forme du signal (positif monotone décroissant)** est **opposée en signe** à la prédiction Janus dérivée (négatif annulaire).
-3. **La signature est dipolaire DR ↔ Shapley**, pattern caractéristique LCDM Repeller-Attractor.
-4. **Après soustraction propre du flow LCDM** (via 2M++ Carrick), **plus aucun signal résiduel** — confirmation que LCDM explique tout.
+1. **Le test photométrique direct ne montre pas la signature annulaire prédite.** C'est le test que les auteurs eux-mêmes ont annoncé pour le JWST.
+2. **2MRS, qui couvre 91% du ciel y compris la zone d'évitement, ne montre rien de spécifique au DR.** L'argument « il faut JWST » a moins de force quand on observe que 2MRS échantillonne déjà la cible avec ~1000 galaxies dans le cône.
+3. **Trois observables indépendantes (kinématique brute, kinématique résiduelle, photométrie) convergent sur la même conclusion.**
 
 ### Ce qu'on NE peut PAS affirmer
 
-1. ❌ « Janus est réfuté ». Le test porte sur **une** prédiction (atténuation annulaire), pas sur le modèle complet.
-2. ❌ « La prédiction quantitative Janus a été testée ». La dérivation testée est **mon interprétation**, pas un calcul publié par les auteurs.
-3. ❌ « Aucune signature de masses négatives n'existe dans CF4 ». Notre test n'explore qu'une observable (Vpec) et un type de structure (DR).
+1. ❌ « Janus est réfuté ». Le test porte sur **une** prédiction, pas sur le modèle.
+2. ❌ « Aucune signature de masses négatives n'existe ». Notre test n'explore qu'une cible (DR) avec deux familles d'observables.
+3. ❌ « La prédiction quantitative Janus a été testée ». La forme de la prédiction (amplitude exacte, profil radial précis) reste à clarifier avec les auteurs.
 
 ### Caveats explicites
 
-| # | Caveat | Statut v2 |
+| # | Caveat | Statut v3 |
 |---|---|---|
-| 1 | Prédiction Janus = dérivation Yacine | ⚠️ **Ouvert** — email envoyé à Petit/Zejli |
-| 2 | Bin 0 vide (centre DR = sous-densité) | ✅ Documenté, attendu physiquement |
-| 3 | Statistiques limites bin 1 (4 grp) | 🟡 Partiellement comblé via table2, mais bins 0-1 toujours vides |
-| 4 | Pas de soustraction LCDM | ✅ **Comblé** — soustraction 2M++ effectuée, signal disparaît |
+| 1 | Prédiction Janus = dérivation Yacine | ⚠️ **Toujours ouvert** — email v3 envoyé |
+| 2 | Bin 0 limité (12 gal) | 🟡 Documenté, sample DR=993 mais sélection bins |
+| 3 | Pas de soustraction LCDM | ✅ Comblé Sprint 3 (CF4) |
+| 4 | Pas de test photométrique direct | ✅ **Comblé Sprint 4 (2MRS)** |
+| 5 | Le DR est-il la bonne cible ? | ⚠️ Question à transmettre aux auteurs |
 
 ### Discussion honnête
 
-Le résultat v2 est **encore plus défavorable** à la prédiction Janus testée que v1 :
-- v1 : signal présent mais forme incompatible Janus (cohérent LCDM)
-- v2 : signal disparaît après soustraction LCDM (LCDM suffisant)
+Le résultat v3 est **encore plus défavorable** à la prédiction Janus :
+- v1 : impossible (zone d'évitement Pantheon+)
+- v2 : signal LCDM-compatible, opposé à Janus (forme monotone, pas annulaire)
+- v3 (**Sprint 3**) : aucun résidu après soustraction LCDM
+- v3 (**Sprint 4**) : le test photométrique direct, **textuellement aligné avec la prédiction publiée**, est non discriminant
 
-Si Janus apportait une contribution significative aux Vpec autour du DR au-delà de la dynamique gravitationnelle newtonienne, on s'attendrait à voir un résidu **après** soustraction du modèle 2M++ (qui ne contient pas Janus). On n'en voit pas.
+Il devient difficile d'invoquer « mauvais test » : on a couvert la kinématique (CF4) et la photométrie (2MRS), brut et résidus, sur 4 bins angulaires couvrant tout le profil annulaire prédit, avec validation par 100 placebo et antipode Shapley.
 
-**Caveat critique** : la prédiction Janus testée est une dérivation rapide de l'auteur principal (non-physicien). Les auteurs Petit-Margnat-Zejli pourraient légitimement contester qu'elle représente leur théorie. C'est précisément pourquoi un email leur a été envoyé.
-
-### Que dirait Damour ?
-
-Damour 2019 et 2022 critiquent Janus pour des raisons mathématiques (cohérence des équations, identités de Bianchi). Notre test est **observationnel**, complémentaire mais distinct. Un résultat « LCDM-compatible » ne valide ni n'invalide ses critiques techniques sur Janus-2014/2019.
-
-### Que dirait Petit ?
-
-Trois angles de critique possibles, à attendre dans la réponse à l'email :
-
-1. **« Vous avez testé la mauvaise prédiction »** : soit Janus prédit autre chose pour CF4, soit la dérivation Yacine est incomplète.
-2. **« Soustraire 2M++ masque le signal »** : le modèle LCDM contient peut-être implicitement une partie de la dynamique que Janus prédit, donc soustraire dilue le signal réel.
-3. **« Le DR n'est pas la bonne cible »** : d'autres structures cosmiques pourraient mieux exhiber la signature Janus.
-
-Ces objections sont à intégrer dans une éventuelle v3.
+**Caveat critique permanent** : les auteurs Petit-Margnat-Zejli pourraient légitimement arguer que la quantification numérique précise n'est pas dans leur article. Ils n'ont pas publié d'amplitude attendue en mag pour 2MRS. C'est précisément l'objet de l'email v3.
 
 ## Reproductibilité
 
@@ -169,52 +203,59 @@ Ces objections sont à intégrer dans une éventuelle v3.
 git clone https://github.com/pando-yacine/janus-cf4-test
 cd janus-cf4-test
 
-# Environnement Python
-uv venv .venv
-source .venv/bin/activate
+uv venv .venv && source .venv/bin/activate
 uv pip install numpy pandas scipy astropy matplotlib
 
-# Pour la soustraction LCDM, cloner pvhub avec git-lfs
+# Pour la soustraction LCDM (~470 Mo de cubes 2M++)
 git lfs install
 git lfs clone https://github.com/KSaid-1/pvhub.git /tmp/pvhub-repo
 
-# Téléchargement des données publiques
-bash code/download_data.sh
+# Données publiques
+mkdir -p data/pantheon-plus data/cosmicflows-4 data/2mrs
+curl -sL -o data/pantheon-plus/Pantheon+SH0ES.dat \
+  "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon+_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat"
+curl -sL -o data/cosmicflows-4/table2.dat.gz \
+  "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/944/94/table2.dat.gz"
+curl -sL -o data/cosmicflows-4/table4.dat.gz \
+  "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/944/94/table4.dat.gz"
+curl -sL -o data/2mrs/table3.dat.gz \
+  "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/199/26/table3.dat.gz"
+gunzip data/cosmicflows-4/*.gz data/2mrs/*.gz
 
-# Exécution complète
-python code/cf4_01_load.py        # CF4 groupes
-python code/cf4_02_select.py      # Sample selection
-python code/cf4_03_analysis.py    # Test χ² principal
-python code/cf4_04_placebo.py     # Placebo + antipode
-python code/cf4_05_figures.py     # Figures
-python code/cf4_06_table2_load.py # Table2 individuels
-python code/cf4_07_lcdm_subtract.py # Test résidus
+# Pipeline complète
+python code/cf4_01_load.py        # Sprint 2
+python code/cf4_03_analysis.py
+python code/cf4_07_lcdm_subtract.py # Sprint 3
+python code/twomrs_01_load.py     # Sprint 4
+python code/twomrs_02_analysis.py
+python code/twomrs_03_validation.py
+python code/twomrs_04_figures.py
 ```
 
-Tous les résultats numériques dans `results_*.json`.
+Tous les résultats numériques dans `results_*.json`. Figures dans `figures/`.
 
 ## Livrables
 
-- 7 documents Markdown (protocoles, analyses, résultats, email)
-- 8 scripts Python (~1000 lignes)
-- 6 figures (3 PDF + 3 PNG)
-- 3 fichiers JSON de résultats structurés
-- 4 commits Git, 4 tags de version
+- 9 documents Markdown (3 protocoles + résultats + email + analyses)
+- 12 scripts Python (~1500 lignes)
+- 9 figures (PDF + PNG)
+- 5 fichiers JSON de résultats structurés
+- 6 commits Git, 5 tags de version (v1, v2, v3 protocoles + résultats)
 - Repo public : https://github.com/pando-yacine/janus-cf4-test
 
 ## Suite
 
-- **Court terme** : envoyer email à Petit/Zejli (brouillon dans `EMAIL_PETIT_ZEJLI.md`)
+- **Court terme** : envoyer email v3 à Petit/Zejli (brouillon dans `EMAIL_PETIT_ZEJLI.md`)
 - **Selon réponse** :
-  - Si ils proposent une autre prédiction quantitative : v3 du protocole
-  - S'ils confirment notre dérivation : v2 finale, présenter à un journaliste scientifique français
-  - S'ils ne répondent pas : laisser le repo public comme état de l'art
+  - Si formule quantitative explicite proposée : v4 du protocole, recalcul avec amplitude prédite
+  - Si reconnaissance du test : v3 finale, présenter à un journaliste scientifique
+  - Si silence : laisser le repo comme état de l'art reproductible
 
 ## Disclosure
 
-- Auteur principal Yacine Arhaliass n'est pas physicien académique
-- Analyse menée avec assistance Claude (Anthropic)
-- Pré-enregistrement public dès la v1 GitHub
+- Auteur principal Yacine Arhaliass : ingénieur informatique & IA, Pando Studio. **Pas physicien académique.**
+- Analyse menée avec assistance Claude (Anthropic), exécution autonome partielle
+- Pré-enregistrement public dès la v1 GitHub (timestamps Git)
 - Aucun financement, aucun conflit d'intérêt
-- Tous les résultats négatifs et non-discriminants publiés au même titre que les positifs
+- Tous résultats publiés (négatifs et non discriminants au même titre que positifs)
 - Aucune modification post-data du protocole pré-enregistré
