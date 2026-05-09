@@ -1,0 +1,16 @@
+{
+  "protocol_freeze_commit": "ac45458a6d086e167830cee05b32abd7fde97d28",
+  "protocol_freeze_tag": "v1.0-protocol-frozen",
+  "protocol_freeze_date": "2026-05-09T19:52:08+02:00",
+  "datasets": {
+    "pantheon_plus_sh0es": {
+      "filename": "data/pantheon-plus/Pantheon+SH0ES.dat",
+      "url": "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
+      "downloaded_at": "2026-05-09T20:04:00+02:00",
+      "size_bytes": 579584,
+      "sha256": "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8",
+      "n_rows": 1701,
+      "reference": "Scolnic et al. 2022, ApJ 938:113, arXiv:2112.03863"
+    }
+  }
+}
