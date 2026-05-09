@@ -1,0 +1,10 @@
+# Don't commit downloaded raw data — they're large and reproducible
+*.dat
+*.cov
+*.fits
+*.csv
+*.h5
+*.npz
+
+# Keep the directory structure
+!.gitignore
