@@ -1,0 +1,26 @@
+{
+  "placebo": {
+    "n_trials": 100,
+    "chi2_dr": 20.099992139148686,
+    "median_placebo": 4.404658471736241,
+    "max_placebo": 32.87037645992333,
+    "n_above_dr": 3,
+    "percentile_dr": 3.0,
+    "verdict": "real_signal"
+  },
+  "antipode": {
+    "position": {
+      "l": 125.0,
+      "b": -5.0
+    },
+    "n_groups": 150,
+    "chi2": 44.74520869291693,
+    "df": 3,
+    "delta_vpec_per_bin": [
+      null,
+      -433.2242808020644,
+      -38.96390635641052,
+      -165.30438927611712
+    ]
+  }
+}
